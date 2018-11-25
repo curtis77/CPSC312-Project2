@@ -1,0 +1,30 @@
+CPSC/MATH/STAT
+programming
+racket
+functional
+proofs 
+logic
+software
+hardware
+systems
+algorithms
+calculus
+linear algebra
+optimization
+discretization
+differential equations
+databases
+geometry
+networks
+AI
+theory
+statistical inference
+probability
+interfaces
+design
+complex numbers
+number theory
+analysis
+algebra
+linear programming
+honours
