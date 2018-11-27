@@ -143,7 +143,6 @@ check_year_level('>=4',C) :-
 % All the following lines of code contain the courses and their descriptions
 % that will be used for the queries
 
-% course(C) is true if C is a course
 % info(C,D,N,Y,P,T) is true if course C is in department D, has course number N,
 % is of year level Y, has pre-reqs P, and has tags T
 % Note: tags are words that describe the class
