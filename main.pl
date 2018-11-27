@@ -2,10 +2,11 @@
 % CPSC 312 2018 Project 2
 % Written by Curtis Fox and Jennifer Ahn
 
-recommend(L,R,C) :- 
+recommend(L,D,R,C) :- 
 	have_pre_req(L,C),
  	%check_tags(L,C),
-	check_year_level(R,C).
+	check_year_level(R,C),
+	check_dept(D,C).
 	
 % check_tags(L,C) is true if course C has overlapping tags T with the courses in 
 % the list L
@@ -26,12 +27,6 @@ contains_tag([C|R],V) :-
 	contains(V,T). 
 contains_tag([C|R],V) :-
 	contains_tag(R,V).
-
-% notin(V,L) is true if V is not an element of the list L
-notin(V,[]).	
-notin(V,[H|T]) :- 
-	dif(V,H),
-	notin(V,T).
 	
 % have_pre_req(L,C) is true if the list of courses L includes all of the prereqs P
 % for course C	
@@ -51,6 +46,10 @@ contains(V,[H|T]) :-
 	contains(V,T),
 	dif(V,H).
 	
+% check_dept(D,C) is true if course C is in department DATA
+check_dept(D,C) :-
+	info(C,D,_,_,_,_).
+
 % check_year_level(R, C) is true if the course C is of a year level that
 % satisfies the rule R
 % Note: Each of the rules are stated in the following lines
