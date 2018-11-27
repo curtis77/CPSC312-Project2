@@ -2,9 +2,40 @@
 % CPSC 312 2018 Project 2
 % Written by Curtis Fox and Jennifer Ahn
 
-% haveprereq(L,C) is true if the list of courses L includes all of the prereqs 
+recommend(L,R,C) :- 
+	have_pre_req(L,C),
+ 	%check_tags(L,C),
+	check_year_level(R,C).
+	
+% check_tags(L,C) is true if course C has overlapping tags T with the courses in 
+% the list L
+check_tags(L,C) :-
+	info(C,_,_,_,_,T),
+	tags_overlap(L,T).
+
+% tags_overlap(L,T) is true if the list of tags T has
+% at least one tag that is the same as a tag for one of the courses in L
+tags_overlap(L,[H|T]) :- 
+	tags_overlap(L,T).
+tags_overlap(L,[H|T]) :- 
+	contains_tag(L,H).
+
+% contains_tag(L,T) is true if one of the courses in L has a tag T
+contains_tag([C|R],V) :-
+	info(C,_,_,_,_,T),
+	contains(V,T). 
+contains_tag([C|R],V) :-
+	contains_tag(R,V).
+
+% notin(V,L) is true if V is not an element of the list L
+notin(V,[]).	
+notin(V,[H|T]) :- 
+	dif(V,H),
+	notin(V,T).
+	
+% have_pre_req(L,C) is true if the list of courses L includes all of the prereqs P
 % for course C	
-haveprereq(L, course(C)) :- 
+have_pre_req(L, C) :- 
 	info(C,_,_,_,P,_),
 	comparelst(L,P).
 
@@ -19,6 +50,99 @@ contains(V,[V|T]).
 contains(V,[H|T]) :-
 	contains(V,T),
 	dif(V,H).
+	
+% check_year_level(R, C) is true if the course C is of a year level that
+% satisfies the rule R
+% Note: Each of the rules are stated in the following lines
+
+% courses with year level 1
+check_year_level('=1',C) :-
+	info(C,_,_,1,_,_).
+	
+% courses with year level less than or equal to 1 (just year level 1)
+check_year_level('<=1',C) :-
+	info(C,_,_,1,_,_).
+
+% courses with year level greater than or equal to 1 (all year levels)	
+check_year_level('>=1',C) :-
+	info(C,_,_,1,_,_).
+	
+check_year_level('>=1',C) :-
+	info(C,_,_,2,_,_).
+	
+check_year_level('>=1',C) :-
+	info(C,_,_,3,_,_).
+	
+check_year_level('>=1',C) :-
+	info(C,_,_,4,_,_).
+	
+% courses with year level 2
+check_year_level('=2',C) :-
+	info(C,_,_,2,_,_).
+
+% courses with year level less than or equal to 2
+check_year_level('<=2',C) :-
+	info(C,_,_,1,_,_).
+	
+check_year_level('<=2',C) :-
+	info(C,_,_,2,_,_).
+	
+% courses with year level greater than or equal to 2
+check_year_level('>=2',C) :-
+	info(C,_,_,2,_,_).
+	
+check_year_level('>=2',C) :-
+	info(C,_,_,3,_,_).
+	
+check_year_level('>=2',C) :-
+	info(C,_,_,4,_,_).
+
+% courses with year level 3	
+check_year_level('=3',C) :-
+	info(C,_,_,3,_,_).
+	
+% courses with year level less than or equal to 3
+check_year_level('<=3',C) :-
+	info(C,_,_,1,_,_).
+	
+check_year_level('<=3',C) :-
+	info(C,_,_,2,_,_).
+	
+check_year_level('<=3',C) :-
+	info(C,_,_,3,_,_).
+	
+% courses with year level greater than or equal to 3 	
+check_year_level('>=3',C) :-
+	info(C,_,_,3,_,_).
+	
+check_year_level('>=3',C) :-
+	info(C,_,_,4,_,_).
+
+% courses with year level 4
+check_year_level('=4',C) :-
+	info(C,_,_,4,_,_).	
+	
+% courses with year level less than or equal to 4 (all year levels)
+check_year_level('<=4',C) :-
+	info(C,_,_,1,_,_).
+	
+check_year_level('<=4',C) :-
+	info(C,_,_,2,_,_).
+	
+check_year_level('<=4',C) :-
+	info(C,_,_,3,_,_).
+	
+check_year_level('<=4',C) :-
+	info(C,_,_,4,_,_).
+	
+% courses with year level greater than or equal to 4 (just year level 4)
+check_year_level('>=4',C) :-
+	info(C,_,_,4,_,_).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+% All the following lines of code contain the courses and their descriptions
+% that will be used for the queries
 
 % course(C) is true if C is a course
 % info(C,D,N,Y,P,T) is true if course C is in department D, has course number N,
@@ -26,26 +150,6 @@ contains(V,[H|T]) :-
 % Note: tags are words that describe the class
 
 % CPSC courses
-course(cpsc110). 
-course(cpsc121).
-course(cpsc210).
-course(cpsc213).
-course(cpsc221).
-course(cpsc302).
-course(cpsc303).
-course(cpsc304).
-course(cpsc310).
-course(cpsc311).
-course(cpsc312).
-course(cpsc313).
-course(cpsc314).
-course(cpsc317).
-course(cpsc320).
-course(cpsc322).
-course(cpsc340).
-course(cpsc344).
-course(cpsc404).
-course(cpsc406).
 info(cpsc110, 'CPSC', 110, 1, [], ['programming', 'functional', 'racket']).
 info(cpsc121, 'CPSC', 121, 1, [], ['proofs', 'logic']).
 info(cpsc210, 'CPSC', 210, 2, [cpsc110], ['programming', 'software']).
@@ -58,7 +162,7 @@ info(cpsc310, 'CPSC', 310, 3, [cpsc210], ['software', 'programming']).
 info(cpsc311, 'CPSC', 311, 3, [cpsc210], ['programming', 'functional', 'racket']).
 info(cpsc312, 'CPSC', 312, 3, [cpsc210], ['programming', 'logic', 'functional']).
 info(cpsc313, 'CPSC', 313, 3, [cpsc210, cpsc213], ['programming', 'hardware', 'systems']).
-info(cpsc314, 'CPSC', 314, 3, [cpsc210], ['programming', 'graphics', 'geometry']).
+info(cpsc314, 'CPSC', 314, 3, [cpsc221, math200, math221], ['programming', 'graphics', 'geometry']).
 info(cpsc317, 'CPSC', 317, 3, [cpsc221, cpsc213], ['programming', 'networks', 'hardware']).
 info(cpsc320, 'CPSC', 320, 3, [cpsc221], ['algorithms', 'proofs', 'theory']).
 info(cpsc322, 'CPSC', 322, 3, [cpsc221, cpsc210], ['AI', 'logic', 'probability']).
@@ -68,27 +172,6 @@ info(cpsc404, 'CPSC', 404, 4, [cpsc213, cpsc304], ['databases', 'programming', '
 info(cpsc406, 'CPSC', 406, 4, [cpsc302], ['programming', 'linear algebra', 'proofs', 'optimization']).
 
 % MATH courses
-course(math100).
-course(math101).
-course(math200).
-course(math215).
-course(math220).
-course(math221).
-course(math223).
-course(math226).
-course(math300).
-course(math302).
-course(math307).
-course(math312).
-course(math316).
-course(math317).
-course(math320).
-course(math321).
-course(math322).
-course(math323).
-course(math340).
-course(math342).
-course(math344).
 info(math100, 'MATH', 100, 1, [], ['calculus']).
 info(math101, 'MATH', 101, 1, [math100], ['calculus']).
 info(math200, 'MATH', 200, 2, [math101], ['calculus', 'geometry']).
