@@ -16,12 +16,12 @@ differential equations
 databases
 geometry
 networks
-AI
+artifical intelligence
 theory
 statistical inference
 probability
 interfaces
-design
+human computer interaction
 complex numbers
 number theory
 analysis
@@ -29,7 +29,7 @@ algebra
 linear programming
 honours
 general statistics 
-ML
+machine learning
 parallel computation
 compilers
 sampling
