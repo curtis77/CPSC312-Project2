@@ -4,7 +4,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% martificial intelligencen recommendation function that the user queries from, according to the following rules:
+% main recommendation function that the user queries from, according to the following rules:
 % L is the list of courses you have taken already
 % P is 0 if the user wants to ignore pre-reqs, and 1 if the
 %   the user only wants courses that they satisfy the pre-reqs for
@@ -27,7 +27,8 @@ gather(L,P,T,Y,D,C) :-
 	call_have_pre_req(P,L,C),
 	call_check_tags(T,L,C),
 	call_check_year_level(Y,C),
-	call_check_dept(D,C).
+	call_check_dept(D,C),
+	not_in(L,C).
 	
 % call_have_pre_req(P,L,C) is true if P equals 0, or if P 
 % equals 1 and the pre-reqs for course C are in the list L
@@ -61,13 +62,12 @@ call_check_dept(D,C) :-
 % find_courses(T,C) is true if course C is a class with tag T
 find_courses(T,C) :-
 	info(C,_,_,_,_,L),
-	contartificial intelligencens(T,L).
+	contains(T,L).
 
 % check_tags(L,C) is true if course C has overlapping tags T with the courses in 
 % the list L
 check_tags(L,C) :-
 	info(C,_,_,_,_,T),
-	not_in(L,C), % this line ensures that courses suggested aren't in list L
 	tags_overlap(L,T).
 
 % not_in(L,C) is true if C is not in list L
@@ -86,7 +86,7 @@ tags_overlap([C|R],T) :-
 
 % list_overlap(L,Q) is true if L and Q have at least one element that is the same
 list_overlap(L,[H|R]) :-
-	contartificial intelligencens(H,L).
+	contains(H,L).
 list_overlap(L,[H|R]) :-
 	list_overlap(L,R).
 	
@@ -96,16 +96,16 @@ have_pre_req(L, C) :-
 	info(C,_,_,_,P,_),
 	comparelst(L,P).
 
-% comparelst(L,R) is true if the list L contartificial intelligencens all the elements of list R
+% comparelst(L,R) is true if the list L contains all the elements of list R
 comparelst(_,[]).
 comparelst(L,[H|T]) :-
-	contartificial intelligencens(H,L),
+	contains(H,L),
 	comparelst(L,T).
 	
-% contartificial intelligencens(V,L) is true if list L contartificial intelligencens the element V
-contartificial intelligencens(V,[V|T]).
-contartificial intelligencens(V,[H|T]) :-
-	contartificial intelligencens(V,T),
+% contains(V,L) is true if list L contains the element V
+contains(V,[V|T]).
+contains(V,[H|T]) :-
+	contains(V,T),
 	dif(V,H).
 	
 % check_dept(D,C) is true if course C is in department D
@@ -202,7 +202,7 @@ check_year_level('>=4',C) :-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	
-% All the following lines of code contartificial intelligencen the courses and their descriptions
+% All the following lines of code contain the courses and their descriptions
 % that will be used for the queries
 
 % info(C,D,N,Y,P,T) is true if course C is in department D, has course number N,
