@@ -110,11 +110,11 @@ check_dept(D,C) :-
 check_year_level('=1',C) :-
 	info(C,_,_,1,_,_).
 	
-% courses with year level less than or equal to 1 (just year level 1)
+% courses with year level less than or equal to 1 
 check_year_level('<=1',C) :-
 	info(C,_,_,1,_,_).
 
-% courses with year level greater than or equal to 1 (all year levels)	
+% courses with year level greater than or equal to 1 	
 check_year_level('>=1',C) :-
 	info(C,_,_,1,_,_).
 	
@@ -173,7 +173,7 @@ check_year_level('>=3',C) :-
 check_year_level('=4',C) :-
 	info(C,_,_,4,_,_).	
 	
-% courses with year level less than or equal to 4 (all year levels)
+% courses with year level less than or equal to 4 
 check_year_level('<=4',C) :-
 	info(C,_,_,1,_,_).
 	
@@ -186,7 +186,7 @@ check_year_level('<=4',C) :-
 check_year_level('<=4',C) :-
 	info(C,_,_,4,_,_).
 	
-% courses with year level greater than or equal to 4 (just year level 4)
+% courses with year level greater than or equal to 4 
 check_year_level('>=4',C) :-
 	info(C,_,_,4,_,_).
 
