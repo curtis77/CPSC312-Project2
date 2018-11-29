@@ -2,12 +2,15 @@
 % CPSC 312 2018 Project 2
 % Written by Curtis Fox and Jennifer Ahn
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % main recommendation function that the user queries from, according to the following rules:
 % L is the list of courses you have taken already
 % P is 0 if the user wants to ignore pre-reqs, and 1 if the
 %   the user only wants courses that they satisfy the pre-reqs for
-% T is 0 if the user wants to ignore tags, and 1 if the user only wants
-%   courses suggested that have shared tags with courses they've already taken
+% T is 0 if the user wants to ignore tags, 1 if the user only wants
+%   courses suggested that have shared tags with courses they've already taken,
+%	or is a tag if the user wants courses suggested to them that have a tag T
 % Y is 0 if the user wants to ignore year level, and a rule of the form '>=i',
 %   '<=i', or '=i' where i is a number between 1 to 4, if the user only wants courses
 %   of a particular year level	
@@ -32,12 +35,14 @@ call_have_pre_req(0,_,_).
 call_have_pre_req(1,L,C) :-
 	have_pre_req(L,C).
 
-% call_check_tags(T,L,C) is true if  T is 0 or if the 
-% the course C has at least one tag that's the same 
-% as a tag that a course in L has
+% call_check_tags(T,L,C) is true if T is 0, if T is 1 and the 
+% the course C has at least one tag that's the same as a tag that a course in L has
+% or if T is a tag and the course C has a tag T
 call_check_tags(0,_,_).
 call_check_tags(1,L,C) :-
 	check_tags(L,C).
+call_check_tags(T,_,C) :-
+	find_courses(T,C).
 
 % call_check_year_level(Y,C) is true if Y equals 0, or if  
 % the course C has year level Y
@@ -52,6 +57,11 @@ call_check_dept(D,C) :-
 	check_dept(D,C).
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% find_courses(T,C) is true if course C is a class with tag T
+find_courses(T,C) :-
+	info(C,_,_,_,_,L),
+	contains(T,L).
 
 % check_tags(L,C) is true if course C has overlapping tags T with the courses in 
 % the list L
