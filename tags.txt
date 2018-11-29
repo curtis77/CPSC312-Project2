@@ -28,3 +28,10 @@ analysis
 algebra
 linear programming
 honours
+general statistics 
+ML
+parallel computation
+compilers
+sampling
+time series
+experiment design
