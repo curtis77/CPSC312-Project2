@@ -6,9 +6,9 @@
 
 % starting instructions for user
 start :- write("Welcome to the UBC Course Recommender."),nl,
-        sleep(0.2),
-		write("To get started, type ?- get(Courserecs) and follow each step 
-		to get a list of course recommendations.").
+         sleep(0.2),
+		 write("To get started, type ?- get(Courserecs) and follow each step 
+		        to get a list of course recommendations.").
 		
 % main recommendation atom that the user queries from, according to the following rules:
 % L is the list of courses you have taken already
@@ -70,17 +70,17 @@ call_check_dept(D,C) :-
 % to collect user input (input from a line):
 get(Courserecs) :-
 	write("Enter list of courses taken (ex. [cpsc110]): "), flush_output(current_output),
-	readln(L),
+	read(L),
 	write("Enter 0 = ignore prereqs; 1 = count course list as prereqs: "),
-	readln(P),
+	read(P),
 	write("Enter 0 = ignore tags; 1 = count course list as tags;
 	'tag' to search for tagged courses: "),
-	readln(T),
+	read(T),
 	write("Enter 0 = get all course levels; '>=i', '<=i', or 
 	'=i' where i is between 1-4 to get specific course year level: "),
-	readln(Y),
+	read(Y),
 	write("Enter 0 = get all departments; 'abcd' to search for specific department: "),
-	readln(D),
+	read(D),
 	recommend(L,P,T,Y,D,Courserecs).
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
