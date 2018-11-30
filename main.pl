@@ -1,5 +1,5 @@
 % Course Recommender
-% cpsc 312 2018 Project 2
+% CPSC 312 2018 Project 2
 % Written by Curtis Fox and Jennifer Ahn
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -17,6 +17,7 @@ start :- write("Welcome to the UBC Course Recommender."),nl,
 % T is 0 if the user wants to ignore tags, 1 if the user only wants
 %   courses suggested that have shared tags with courses they've already taken,
 %	or is a tag if the user wants courses suggested to them that have a tag T
+%   (Please use proper grammar and only lower case letters if typing in a tag)
 % Y is 0 if the user wants to ignore year level, and a rule of the form '>=i',
 %   '<=i', or '=i' where i is a number between 1 to 4, if the user only wants courses
 %   of a particular year level	
@@ -36,8 +37,8 @@ gather(L,P,T,Y,D,C) :-
 	call_check_tags(T,L,C),
 	call_check_year_level(Y,C),
 	call_check_dept(D,C),
-	no_pre_req(L,C), 
-	not_in(L,C).
+	no_pre_req(L,C), % do not return courses that are pre-reqs of courses already taken
+	not_in(L,C). % do not return courses already taken
 	
 % call_have_pre_req(P,L,C) is true if P equals 0, or if P 
 % equals 1 and the pre-reqs for course C are in the list L
@@ -70,7 +71,7 @@ call_check_dept(D,C) :-
 
 % to collect user input (input from a line):
 get(Courserecs) :-
-	write("Enter list of courses taken (ex. [cpsc110]): "), flush_output(current_output),
+	write("Enter list of courses taken (ex. [cpsc110]): "), 
 	read(L),
 	write("Enter 0 = ignore prereqs; 1 = count course list as prereqs: "),
 	read(P),

@@ -1,0 +1,47 @@
+Test 1: No filters
+[cpsc312,cpsc406].
+0.
+0.
+0.
+0.
+=> Returns all courses
+
+Test 2: Tag, year Level
+[cpsc312,cpsc421].
+0.
+'optimization'.
+'=4'
+0.
+=> [cpsc406].
+
+Test 3: Pre-req, Tag, Year Level, Department
+[cpsc221,cpsc213].
+1.
+1.
+'>=3'.
+'cpsc'
+=> [cpsc317,cpsc320,cpsc421].
+
+Test 4: Tag, Year Level
+[math320].
+0.
+1.
+'>=4'.
+0.
+=> [cpsc406,cpsc420,cpsc421,stat460,stat461].
+
+Test 5: Pre-Req, Tag, Department
+[math320].
+1.
+1.
+0.
+'stat'.
+=> [stat460].
+
+Test 6: Pre-Req, Department
+[cpsc110,cpsc121].
+1.
+0.
+0.
+'cpsc'.
+=> [cpsc210].
