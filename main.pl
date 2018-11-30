@@ -9,9 +9,8 @@ start :- write("Welcome to the UBC Course Recommender."),nl,
         sleep(0.2),
 		write("To get started, type ?- get(Courserecs) and follow each step 
 		to get a list of course recommendations.").
-
-
-% main recommendation function that the user queries from, according to the following rules:
+		
+% main recommendation atom that the user queries from, according to the following rules:
 % L is the list of courses you have taken already
 % P is 0 if the user wants to ignore pre-reqs, and 1 if the
 %   the user only wants courses that they satisfy the pre-reqs for
@@ -24,7 +23,8 @@ start :- write("Welcome to the UBC Course Recommender."),nl,
 % D is 0 if the user wants to ignore department, or is of the form 'code' (for 
 %   example 'cpsc') if the user want to specify the department of courses being suggested
 % C is the list of courses suggested to take
-% Note: This function uses the setof function to remove all duplicates.
+% Note: This atom uses the setof atom to remove all duplicates.
+recommend(L,0,0,0,0,C). % just return true if nothing is queried 
 recommend(L,P,T,Y,D,C) :-
 	setof(Q, Q^gather(L,P,T,Y,D,Q),C).
 
@@ -35,6 +35,7 @@ gather(L,P,T,Y,D,C) :-
 	call_check_tags(T,L,C),
 	call_check_year_level(Y,C),
 	call_check_dept(D,C),
+	no_pre_req(L,C), 
 	not_in(L,C).
 	
 % call_have_pre_req(P,L,C) is true if P equals 0, or if P 
@@ -81,10 +82,15 @@ get(Courserecs) :-
 	write("Enter 0 = get all departments; 'abcd' to search for specific department: "),
 	readln(D),
 	recommend(L,P,T,Y,D,Courserecs).
-
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+% no_pre_req(L,C) is true if C is not a pre-req of any course in list L
+no_pre_req([],C).
+no_pre_req([H|T],C) :-
+	info(H,_,_,_,Q,_),
+	not_in(Q,C),
+	no_pre_req(T,C).
 
 % find_courses(T,C) is true if course C is a class with tag T
 find_courses(T,C) :-
