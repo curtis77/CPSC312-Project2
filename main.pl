@@ -24,7 +24,8 @@ start :- write("Welcome to the UBC Course Recommender."),nl,
 %   example 'cpsc') if the user want to specify the department of courses being suggested
 % C is the list of courses suggested to take
 % Note: This atom uses the setof atom to remove all duplicates.
-recommend(L,0,0,0,0,C). % just return true if nothing is queried 
+recommend(_,0,0,0,0,C) :- 
+	findall(Q, info(Q,_,_,_,_,_),C). % just return all courses
 recommend(L,P,T,Y,D,C) :-
 	setof(Q, Q^gather(L,P,T,Y,D,Q),C).
 
